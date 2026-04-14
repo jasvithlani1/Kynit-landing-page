@@ -9,6 +9,29 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { passive: true });
 
     // ─────────────────────────────────────────
+    // 1b. Mobile Navigation Toggle
+    // ─────────────────────────────────────────
+    const navToggle = document.getElementById('mobile-nav-toggle');
+    const navLinks  = document.getElementById('nav-links');
+
+    if (navToggle && navLinks) {
+        navToggle.addEventListener('click', () => {
+            navToggle.classList.toggle('active');
+            navLinks.classList.toggle('active');
+            document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
+        });
+
+        // Close menu when a link is clicked
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navToggle.classList.remove('active');
+                navLinks.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+    }
+
+    // ─────────────────────────────────────────
     // 2. Counter animation (triggers when section enters viewport)
     // ─────────────────────────────────────────
     const counterEl      = document.querySelector('#founding-counter span');
@@ -46,19 +69,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const productFrame = document.getElementById('product-frame');
 
     const onParallax = () => {
+        // Only run parallax on desktop / larger tablets (width > 1024px)
+        if (window.innerWidth <= 1024) return;
+
         const sy = window.scrollY;
 
-        // Hero background drifts at 45% of scroll speed (classic parallax)
+        // Hero background drifts at 45% of scroll speed
         if (heroBg) {
             heroBg.style.transform = `translateY(${sy * 0.45}px)`;
         }
 
-        // Hero text content drifts at 15% (slower than scroll, sticks longer)
+        // Hero text content drifts at 15%
         if (heroContent) {
             heroContent.style.transform = `translateY(${sy * 0.15}px)`;
         }
 
-        // Running figure drifts at 25% (mid-layer parallax)
+        // Running figure drifts at 25%
         if (runnerStage) {
             runnerStage.style.transform = `translateY(${sy * 0.25}px)`;
         }
