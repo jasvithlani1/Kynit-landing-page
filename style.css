@@ -108,11 +108,13 @@ body {
     line-height: 1;
 }
 .logo-img {
-    height: 24px;
+    height: 28px;
     width: auto;
     display: block;
-    filter: invert(1) brightness(0.92);
+    filter: invert(1) brightness(1);
+    transition: var(--transition);
 }
+.logo-container:hover .logo-img { opacity: 0.8; }
 
 .nav-links {
     display: flex;
@@ -539,30 +541,43 @@ footer { padding: 3.5rem 0; background: var(--brown-dk); border-top: 1px solid r
 /* 3. Tablets / Small Laptops */
 @media (max-width: 1024px) {
     :root { --section-pad: 6rem; }
-    .hero-split { padding-top: 100px; min-height: auto; padding-bottom: 4rem; }
+    .hero-split { 
+        padding-top: 100px; 
+        min-height: auto; 
+        padding-bottom: 5rem; 
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
     .hero-layout-split { 
-        grid-template-columns: 1fr; 
-        gap: 5rem; 
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         text-align: center; 
-        padding-top: 2rem;
+        gap: 3.5rem; 
+        padding-top: 1rem;
+        width: 100%;
     }
     .hero-text-col { 
-        display: flex; 
-        flex-direction: column; 
-        align-items: center; 
-        order: 1; 
+        width: 100%;
         max-width: 100%; 
         padding-top: 0; 
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
-    .hero-video-col { order: 2; width: 100%; max-width: 600px; margin: 0 auto; }
-    .hero-title-main { font-size: clamp(2.8rem, 12vw, 4.2rem); margin-bottom: 1.5rem; }
-    .hero-description { margin-left: auto; margin-right: auto; font-size: 1.15rem; width: 100%; }
+    .hero-video-col { 
+        width: 100%; 
+        max-width: 580px; 
+        margin: 0 auto; 
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .hero-title-main { font-size: clamp(2.6rem, 11vw, 4rem); margin-bottom: 1.5rem; }
+    .hero-description { font-size: 1.1rem; line-height: 1.4; width: 100%; max-width: 400px; }
     
-    .product-grid, .about-grid { 
-        grid-template-columns: 1fr; 
-        gap: 3.5rem; 
-        text-align: center; 
-    }
+    .product-grid, .about-grid { display: flex; flex-direction: column; gap: 4rem; text-align: center; }
     .about-grid { display: flex; flex-direction: column; gap: 4rem; }
     .product-text-col, .about-text { 
         display: flex; 
@@ -625,7 +640,7 @@ footer { padding: 3.5rem 0; background: var(--brown-dk); border-top: 1px solid r
     .logo-img { height: 18px; }
     .logo-icon { width: 30px; height: 30px; }
     
-    .hero-title-main { font-size: 2.8rem; letter-spacing: -0.02em; }
+    .hero-title-main { font-size: 2.6rem; letter-spacing: -0.01em; margin-bottom: 1.25rem; }
     .hero-description { font-size: 1.1rem; line-height: 1.4; margin-bottom: 1.5rem; }
     .hero-sub { font-size: 0.95rem; line-height: 1.5; margin-bottom: 2rem; opacity: 0.7; }
     
@@ -646,6 +661,8 @@ footer { padding: 3.5rem 0; background: var(--brown-dk); border-top: 1px solid r
     
     .footer-inner { grid-template-columns: 1fr; text-align: center; gap: 3rem; }
     .footer-logo-row { justify-content: center; }
+    .footer-logo-img { height: 24px; }
+    .footer-icon { width: 34px; height: 34px; }
     .footer-brand p { font-size: 0.7rem; }
     .footer-links-group { flex-direction: column; width: 100%; gap: 1rem; }
     .footer-copy { text-align: center; font-size: 0.65rem; padding-top: 1rem; border-top: 1px solid rgba(242, 241, 240, 0.05); }
