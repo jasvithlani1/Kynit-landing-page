@@ -1,0 +1,11 @@
+{
+  "name": "kynit-landing-page",
+  "version": "1.0.0",
+  "description": "Premium Athleisure Landing Page",
+  "main": "index.html",
+  "scripts": {
+    "start": "echo 'Static site running'"
+  },
+  "author": "Kynit",
+  "license": "ISC"
+}
