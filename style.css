@@ -17,10 +17,9 @@
     --blue-dim:   rgba(171, 194, 217, 0.18);
     --blue-faint: rgba(171, 194, 217, 0.08);
     --off-white:  #F2F1F0;
-    --muted:      rgba(242, 241, 240, 0.6);
-    --dim:        rgba(242, 241, 240, 0.12);
-    --faint:      rgba(242, 241, 240, 0.06);
     --transition: all 0.36s cubic-bezier(0.4, 0, 0.2, 1);
+    --section-pad: 9rem;
+    --section-pad-mobile: 6rem;
 }
 
 /* ── Reset ── */
@@ -202,36 +201,21 @@ body {
 
 .btn-sm { padding: 0.6rem 1.3rem; font-size: 0.74rem; }
 
-/* ══════════════════════════════════════════════
-   HERO SECTION
-══════════════════════════════════════════════ */
-.hero {
+/* ── Hero Base ── */
+.hero-split {
     position: relative;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    overflow: hidden;
-    padding-top: 80px;
-    background: var(--dark);
-}
-
-
-
-/* Hero layout */
-.hero-layout {
-    position: relative;
-    z-index: 2;
+    min-height: calc(100vh + 60px); /* Extra height for breathing room */
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 2rem 3rem 2rem 4rem;
-    width: 100%;
-    min-height: calc(100vh - 80px);
-    gap: 3rem;
+    background: var(--dark);
+    padding-top: 140px; /* Account for fixed header plus breathing space */
+    padding-bottom: 6rem;
+    overflow: hidden;
 }
+
+
+
+/* Removed redundant hero-layout */
 
 /* ── Text content ── */
 .hero-content {
@@ -305,12 +289,7 @@ body {
 }
 
 /* ── Hero Split Layout ── */
-.hero-split {
-    background: var(--dark);
-    display: flex;
-    align-items: center;
-    overflow: visible;
-}
+/* .hero-split defined in base hero section */
 
 .hero-layout-split {
     max-width: 1300px;
@@ -554,7 +533,7 @@ body {
    PRODUCT SECTION — dark brown bg
 ══════════════════════════════════════════════ */
 .product-section {
-    padding: 8rem 0;
+    padding: var(--section-pad) 0;
     background: var(--brown-dk);
     position: relative;
 }
@@ -689,7 +668,7 @@ body {
    COUNTER SECTION — charcoal bg
 ══════════════════════════════════════════════ */
 .counter-section {
-    padding: 8rem 0;
+    padding: var(--section-pad) 0;
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -770,7 +749,7 @@ body {
    ABOUT / COMMUNITY — medium brown bg
 ══════════════════════════════════════════════ */
 .about {
-    padding: 8rem 0;
+    padding: var(--section-pad) 0;
     background: var(--brown-md);
 }
 
@@ -944,9 +923,13 @@ footer {
    RESPONSIVE
 ══════════════════════════════════════════════ */
 @media (max-width: 1024px) {
+    .hero-split {
+        padding-top: 120px;
+        min-height: auto;
+    }
     .hero-layout-split { 
         grid-template-columns: 1fr;
-        gap: 3rem;
+        gap: 4rem;
         text-align: center;
     }
     .hero-text-col {
@@ -957,6 +940,11 @@ footer {
     .hero-description { margin-left: auto; margin-right: auto; }
     .feature-list { justify-content: center; }
     .video-window { max-width: 320px; }
+    
+    /* Standardized mobile padding */
+    .product-section, .counter-section, .about {
+        padding: var(--section-pad-mobile) 0;
+    }
 }
 
 @media (max-width: 768px) {
