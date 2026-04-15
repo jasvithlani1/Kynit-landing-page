@@ -283,6 +283,40 @@ body {
     letter-spacing: 0.02em;
 }
 
+/* ── Hero Wordmark Logo (replaces "kynit" text) ── */
+.accent-logo {
+    display: block;
+    line-height: 1;
+    margin-top: 0.15em;
+}
+
+.hero-logo-wordmark {
+    /* Match height of the uppercase letters in the title */
+    height: clamp(3rem, 6vw, 5rem);
+    width: auto;
+    display: block;
+    /* Tint the image to the brand blue accent color */
+    filter: invert(1) sepia(1) saturate(1.5) hue-rotate(180deg) brightness(1.1);
+    transition: filter 0.3s ease, transform 0.3s ease;
+}
+
+.hero-logo-wordmark:hover {
+    transform: scale(1.02);
+}
+
+@media (max-width: 1024px) {
+    .hero-logo-wordmark { height: clamp(2.6rem, 10vw, 4rem); margin: 0 auto; }
+    .accent-logo { display: flex; justify-content: center; }
+}
+
+@media (max-width: 768px) {
+    .hero-logo-wordmark { height: clamp(2.2rem, 12vw, 3.2rem); }
+}
+
+@media (max-width: 480px) {
+    .hero-logo-wordmark { height: clamp(2rem, 14vw, 2.8rem); }
+}
+
 .hero-description {
     font-size: 1.25rem;
     line-height: 1.6;
