@@ -38,10 +38,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const counterSection = document.querySelector('.counter-section');
     let counterDone      = false;
 
-    // Fetch count of non-empty rows in Column A from row 2 onwards
+    // Fetch count from Column A — reads the VALUE of the last non-blank cell
+    // (Column A contains serial/row numbers, so lastValue = total member count)
     async function fetchMemberCount() {
         const SHEET_ID = '1-3MBoO6Z88cNmEqfrr_YjCSX95v4m7-NEIkvY2RyQ50';
-        const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&range=A2:A`;
+        // Use A1:A so gviz correctly identifies row 1 as the header
+        const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&range=A1:A`;
         try {
             const res  = await fetch(url);
             const text = await res.text();
@@ -49,16 +51,18 @@ document.addEventListener('DOMContentLoaded', () => {
             const jsonStr = text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1);
             const data    = JSON.parse(jsonStr);
             const rows    = data.table.rows;
-            let count = 0;
+
+            // Walk through rows and track the last non-null value
+            let lastValue = null;
             for (const row of rows) {
-                // Stop counting at first blank / null cell
-                if (row.c && row.c[0] && row.c[0].v !== null && row.c[0].v !== '') {
-                    count++;
+                const cell = row.c && row.c[0];
+                if (cell && cell.v !== null && cell.v !== '') {
+                    lastValue = Math.round(cell.v); // v is a float like 3.0 → 3
                 } else {
-                    break;
+                    break; // Stop at first blank cell
                 }
             }
-            return count > 0 ? count : null;
+            return lastValue; // null if sheet is empty (falls back to hardcoded)
         } catch (e) {
             console.warn('Could not fetch member count from Google Sheets:', e);
             return null;
