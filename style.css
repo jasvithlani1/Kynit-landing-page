@@ -287,21 +287,33 @@ body {
 .accent-logo {
     display: block;
     line-height: 1;
-    margin-top: 0.15em;
+    margin-top: 0.3em;
 }
 
 .hero-logo-wordmark {
-    /* Match height of the uppercase letters in the title */
     height: clamp(3rem, 6vw, 5rem);
     width: auto;
     display: block;
-    /* Tint the image to the brand blue accent color */
-    filter: invert(1) sepia(1) saturate(1.5) hue-rotate(180deg) brightness(1.1);
-    transition: filter 0.3s ease, transform 0.3s ease;
+    /* Make logo visible and white on dark background */
+    filter: brightness(0) invert(1);
+    transition: transform 0.3s ease;
 }
 
 .hero-logo-wordmark:hover {
     transform: scale(1.02);
+}
+
+/* ── Hero Pretext ("Move with") ── */
+.hero-pretext {
+    display: block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: clamp(1.1rem, 3vw, 1.8rem);
+    font-weight: 300;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(242, 241, 240, 0.55);
+    line-height: 1.4;
+    margin-bottom: 0.2em;
 }
 
 @media (max-width: 1024px) {
@@ -490,7 +502,7 @@ body {
 .product-section { padding: var(--section-pad) 0; background: var(--brown-dk); position: relative; }
 .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
 .product-frame { position: relative; border-radius: 6px; overflow: hidden; aspect-ratio: 3 / 4; background: var(--brown-md); box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4); }
-.product-img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.07); transition: transform 0.8s ease; will-change: transform; }
+.product-img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.8s ease; will-change: transform; }
 .product-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 55%, rgba(64, 45, 33, 0.75) 100%); pointer-events: none; }
 .product-caption { position: absolute; bottom: 1.5rem; left: 1.5rem; font-family: 'DM Sans', sans-serif; font-style: italic; font-size: 0.88rem; color: rgba(242, 241, 240, 0.55); letter-spacing: 0.04em; }
 
@@ -630,6 +642,15 @@ footer { padding: 3.5rem 0; background: var(--brown-dk); border-top: 1px solid r
     :root { --section-pad: 4rem; }
     
     .container, .nav-container, .hero-layout-split { padding: 0 1.5rem; }
+
+    /* Hide video column on mobile — text only hero */
+    .hero-video-col { display: none; }
+
+    /* Hero pretext sizing on mobile */
+    .hero-pretext { font-size: clamp(0.9rem, 5vw, 1.3rem); letter-spacing: 0.18em; }
+    .hero-logo-wordmark { height: clamp(2.5rem, 18vw, 4rem); }
+    .accent-logo { display: flex; justify-content: flex-start; }
+
 
     #main-header { padding: 0.8rem 0; }
     #main-header.scrolled { padding: 0.6rem 0; }
