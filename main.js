@@ -32,28 +32,66 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ─────────────────────────────────────────
-    // 2. Counter animation (triggers when section enters viewport)
+    // 2. Founding Members Counter — Live from Google Sheets
     // ─────────────────────────────────────────
     const counterEl      = document.querySelector('#founding-counter span');
     const counterSection = document.querySelector('.counter-section');
     let counterDone      = false;
 
+    // Fetch count of non-empty rows in Column A from row 2 onwards
+    async function fetchMemberCount() {
+        const SHEET_ID = '1-3MBoO6Z88cNmEqfrr_YjCSX95v4m7-NEIkvY2RyQ50';
+        const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&range=A2:A`;
+        try {
+            const res  = await fetch(url);
+            const text = await res.text();
+            // Strip JSONP wrapper: /*O_o*/\ngoogle.visualization.Query.setResponse({...});
+            const jsonStr = text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1);
+            const data    = JSON.parse(jsonStr);
+            const rows    = data.table.rows;
+            let count = 0;
+            for (const row of rows) {
+                // Stop counting at first blank / null cell
+                if (row.c && row.c[0] && row.c[0].v !== null && row.c[0].v !== '') {
+                    count++;
+                } else {
+                    break;
+                }
+            }
+            return count > 0 ? count : null;
+        } catch (e) {
+            console.warn('Could not fetch member count from Google Sheets:', e);
+            return null;
+        }
+    }
+
+    function animateCounter(target) {
+        if (!counterEl) return;
+        const start = Math.max(0, target - 30);
+        let count = start;
+        const tick = () => {
+            if (count < target) {
+                count++;
+                counterEl.textContent = count.toLocaleString('en-IN');
+                setTimeout(tick, 55);
+            } else {
+                counterEl.textContent = target.toLocaleString('en-IN');
+            }
+        };
+        setTimeout(tick, 400);
+    }
+
     if (counterEl && counterSection) {
+        // Pre-fetch the count so it's ready when the section scrolls into view
+        let liveCount = null;
+        fetchMemberCount().then(count => { liveCount = count; });
+
         const counterObs = new IntersectionObserver((entries) => {
             if (entries[0].isIntersecting && !counterDone) {
                 counterDone = true;
-                let count   = 1250;
-                const target = 1284;
-                const tick = () => {
-                    if (count < target) {
-                        count++;
-                        counterEl.textContent = count.toLocaleString();
-                        setTimeout(tick, 50);
-                    } else {
-                        counterEl.textContent = target.toLocaleString();
-                    }
-                };
-                setTimeout(tick, 400);
+                // Use live count if available, otherwise fall back to hardcoded
+                const target = liveCount !== null ? liveCount : 1284;
+                animateCounter(target);
             }
         }, { threshold: 0.3 });
         counterObs.observe(counterSection);
