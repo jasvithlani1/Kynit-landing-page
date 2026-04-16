@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const res  = await fetch(url);
             const text = await res.text();
-            // Strip JSONP wrapper: /*O_o*/\ngoogle.visualization.Query.setResponse({...});
+            // Strip JSONP wrapper
             const jsonStr = text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1);
             const data    = JSON.parse(jsonStr);
             const rows    = data.table.rows;
@@ -57,14 +57,15 @@ document.addEventListener('DOMContentLoaded', () => {
             for (const row of rows) {
                 const cell = row.c && row.c[0];
                 if (cell && cell.v !== null && cell.v !== '') {
-                    lastValue = Math.round(cell.v); // v is a float like 3.0 → 3
+                    lastValue = Math.round(cell.v);
                 } else {
-                    break; // Stop at first blank cell
+                    break;
                 }
             }
-            return lastValue; // null if sheet is empty (falls back to hardcoded)
+            console.log('Member count from Google Sheets:', lastValue);
+            return lastValue;
         } catch (e) {
-            console.warn('Could not fetch member count from Google Sheets:', e);
+            console.error('Member count fetch failed:', e);
             return null;
         }
     }
